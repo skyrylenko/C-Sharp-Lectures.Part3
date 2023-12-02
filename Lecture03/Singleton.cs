@@ -1,26 +1,32 @@
-﻿namespace Lecture03
+﻿namespace Lecture03.Singleton
 {
+
+	public class SingletonMain
+	{		
+		public void Main()
+		{
+			Thread p1 = new Thread(() =>
+			{
+				var s1 = Singleton.GetSingleton("Test 1");
+				Console.WriteLine(s1.Value);
+			});
+			Thread p2 = new Thread(() =>
+			{
+				var s1 = Singleton.GetSingleton("Test 2");
+				Console.WriteLine(s1.Value);
+			});
+
+			p1.Start();
+			p2.Start();
+
+			p1.Join();
+			p2.Join();
+		}
+	}
+
 	public sealed class Singleton
 	{
-
-		/*	//Main method
-				Thread p1 = new Thread(() =>
-				{
-					var s1 = Singleton.GetSingleton("Test 1");
-					Console.WriteLine(s1.Value);
-				});
-				Thread p2 = new Thread(() =>
-				{
-					var s1 = Singleton.GetSingleton("Test 2");
-					Console.WriteLine(s1.Value);
-				});
-
-				p1.Start();
-				p2.Start();
-
-				p1.Join();
-				p2.Join();
-		 */
+		
 		private static readonly object _lock = new object();
 		private Singleton() { }
 		private static Singleton singleton;
